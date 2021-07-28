@@ -17,3 +17,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.header > li {
+  list-style-type: none;
+  margin: 20px;
+}

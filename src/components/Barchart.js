@@ -1,5 +1,5 @@
 const Barchart = () => {
-  return <div></div>;
+  return <div>barchart</div>;
 };
 
 export default Barchart;
