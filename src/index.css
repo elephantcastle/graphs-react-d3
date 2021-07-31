@@ -27,3 +27,8 @@ code {
   list-style-type: none;
   margin: 20px;
 }
+
+#scatterplot {
+  display: flex;
+  justify-content: center;
+}

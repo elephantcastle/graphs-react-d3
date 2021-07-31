@@ -5,6 +5,9 @@ const Header = () => {
     <div>
       <ul className="header">
         <li>
+          <Link to="/scatterplot">scatterplot</Link>
+        </li>
+        <li>
           <Link to="/barchart">barchart</Link>
         </li>
         <li>
