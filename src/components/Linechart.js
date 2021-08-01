@@ -116,6 +116,12 @@ class Linechart extends Component {
           .enter()
           .append("circle")
           .attr("class", "dot")
+          .attr("cx", function (d, i) {
+            return xScale(d.date);
+          })
+          .attr("cy", function (d) {
+            return 0;
+          })
           .transition()
           .duration(1000)
           .attr("cx", function (d, i) {
