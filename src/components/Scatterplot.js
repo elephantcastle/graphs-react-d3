@@ -27,8 +27,8 @@ class Scatterplot extends Component {
 
   drawScatterplot(data) {
     const margin = { top: 30, right: 60, bottom: 30, left: 60 };
-    const width = 500 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const width = 800 - margin.left - margin.right;
+    const height = 800 - margin.top - margin.bottom;
 
     // setup the canvas
     const svg = d3
