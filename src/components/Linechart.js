@@ -94,7 +94,7 @@ class Linechart extends Component {
           .y((d) => yScale(d.value))
           .curve(d3.curveBasis);
 
-        svg
+        let line = svg
           .append("path")
           .attr("d", lineGenerator(dataset))
           .attr("class", "line")
@@ -102,6 +102,13 @@ class Linechart extends Component {
           .attr("stroke", "Red")
           .attr("stroke-width", 2);
 
+        let totalLength = line.node().getTotalLength();
+        line
+          .attr("stroke-dasharray", totalLength)
+          .attr("stroke-dashoffset", totalLength)
+          .transition()
+          .duration(2000)
+          .attr("stroke-dashoffset", 0);
         // add a dot for each points that contributes to the line
         svg
           .selectAll(".dot")
@@ -109,13 +116,16 @@ class Linechart extends Component {
           .enter()
           .append("circle")
           .attr("class", "dot")
+          .transition()
+          .duration(1000)
           .attr("cx", function (d, i) {
             return xScale(d.date);
           })
           .attr("cy", function (d) {
             return yScale(d.value);
           })
-          .attr("r", 1);
+          .attr("r", () => 1)
+          .delay(2000);
       };
 
       redraw();

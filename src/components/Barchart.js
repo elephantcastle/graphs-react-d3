@@ -94,14 +94,20 @@ class Barchart extends Component {
         .attr("x", function (d) {
           return xScale(d.Country);
         })
-        .attr("y", function (d) {
-          return yScale(d.Value);
-        })
+        .attr("y", yScale(0))
         .attr("width", xScale.bandwidth())
+        .attr("height", function (d) {
+          return height - yScale(0);
+        })
+        .attr("fill", "#69b3a2")
+        .transition()
+        .duration(2000)
         .attr("height", function (d) {
           return height - yScale(d.Value);
         })
-        .attr("fill", "#69b3a2");
+        .attr("y", function (d) {
+          return yScale(d.Value);
+        });
     };
     redraw();
     window.addEventListener("resize", redraw);

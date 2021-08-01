@@ -82,28 +82,50 @@ class Scatterplot extends Component {
         .attr("text-anchor", "end")
         .text("y coordinate");
 
-      // draw points
+      // draw points in the center
       svg
         .append("g")
         .selectAll("circle")
         .data(data)
         .enter()
         .append("circle")
-        .attr("cx", (d) => xScale(d[0]))
-        .attr("cy", (d) => yScale(d[1]))
+        .attr("cx", width / 2)
+        .attr("cy", height / 2)
+        .attr("fill", "#69b3a2")
         .attr("class", "circles")
         .attr("r", () => 5);
 
-      // draw text labels
-      svg
-        .append("g")
-        .selectAll("text")
-        .data(data)
-        .enter()
-        .append("text")
-        .text((d) => d[0] + "," + d[1])
-        .attr("x", (d) => xScale(d[0]))
-        .attr("y", (d) => yScale(d[1]) - 10);
+      // Animation: put them down one by one:
+      function triggerTransitionDelay() {
+        // update points to right position
+        d3.selectAll("circle")
+          .data(data)
+          .transition()
+          .duration(500)
+          .attr("cx", (d, i) => xScale(data[i][0]))
+          .attr("cy", (d, i) => yScale(data[i][1]))
+          .attr("r", () => 5)
+          .delay(function (d, i) {
+            return i * 125;
+          });
+
+        // draw text labels
+        svg
+          .append("g")
+          .selectAll("text")
+          .data(data)
+          .enter()
+          .append("text")
+          .transition()
+          .duration(500)
+          .delay(function (d, i) {
+            return i * 125;
+          })
+          .text((d) => d[0] + "," + d[1])
+          .attr("x", (d) => xScale(d[0]))
+          .attr("y", (d) => yScale(d[1]) - 10);
+      }
+      setTimeout(triggerTransitionDelay, 500);
     };
     redraw();
     window.addEventListener("resize", redraw);
