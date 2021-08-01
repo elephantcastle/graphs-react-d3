@@ -98,7 +98,16 @@ class Scatterplot extends Component {
         .attr("dy", "0.71em")
         .attr("text-anchor", "end")
         .text("y coordinate");
-
+      // Add a clipPath: everything out of this area won't be drawn.
+      svg
+        .append("defs")
+        .append("svg:clipPath")
+        .attr("id", "clip")
+        .append("svg:rect")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("x", 0)
+        .attr("y", 0);
       // draw points in the center
       svg
         .append("g")
@@ -106,6 +115,7 @@ class Scatterplot extends Component {
         .data(data)
         .enter()
         .append("circle")
+        .attr("clip-path", "url(#clip)")
         .attr("cx", width / 2)
         .attr("cy", height / 2)
         .attr("fill", "#69b3a2")
@@ -115,10 +125,9 @@ class Scatterplot extends Component {
       svg.append("g").attr("class", "brush").call(brush);
 
       function brushended(event) {
-        var s = event.selection;
-        console.log(s);
+        let s = event.selection;
+        // If no selection, back to initial coordinate. Otherwise, update X, Y axis domain and call zoom
         if (!s) {
-          console.log("one");
           if (!idleTimeout) return (idleTimeout = setTimeout(idled, idleDelay));
           xScale.domain([0, d3.max(data, (d) => d[0])]);
           yScale.domain([0, d3.max(data, (d) => d[1])]);
@@ -130,7 +139,7 @@ class Scatterplot extends Component {
         zoom();
       }
       function zoom() {
-        var t = svg.transition().duration(750);
+        let t = svg.transition().duration(750);
         svg.select(".axis--x").transition(t).call(xAxis);
         svg.select(".axis--y").transition(t).call(yAxis);
         svg
@@ -150,6 +159,7 @@ class Scatterplot extends Component {
           .delay(function (d, i) {
             return i * 125;
           })
+          .attr("clip-path", "url(#clip)")
           .text((d) => d[0] + "," + d[1])
           .attr("x", (d) => xScale(d[0]))
           .attr("y", (d) => yScale(d[1]) - 10);
