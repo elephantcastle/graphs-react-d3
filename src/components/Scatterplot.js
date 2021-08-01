@@ -46,17 +46,38 @@ class Scatterplot extends Component {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      // create scales and append axis
+      // create scales
       const xScale = d3
         .scaleLinear()
         .domain([0, d3.max(data, (d) => d[0])])
         .range([0, width]);
-      //append x axis
+
+      const yScale = d3
+        .scaleLinear()
+        .domain([0, d3.max(data, (d) => d[1])])
+        .range([height, 0]);
+
+      let brush = d3
+        .brush()
+        .extent([
+          [0, 0],
+          [width, height],
+        ])
+        .on("end", brushended);
+
+      let idleTimeout;
+      let idleDelay = 350;
+
+      // create axis
+      let xAxis = d3.axisBottom(xScale);
+      let yAxis = d3.axisLeft(yScale);
+
+      // apppend x axis
       svg
         .append("g")
         .attr("class", "axis axis--x")
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(xScale))
+        .call(xAxis)
         .append("text")
         .attr("fill", "#000")
         .attr("x", width)
@@ -64,16 +85,12 @@ class Scatterplot extends Component {
         .attr("text-anchor", "end")
         .text("x coordinate");
 
-      const yScale = d3
-        .scaleLinear()
-        .domain([0, d3.max(data, (d) => d[1])])
-        .range([height, 0]);
-      //append y axis
+      // apppend y axis
       svg
         .append("g")
         .attr("class", "axis axis--y")
-        .attr("transform", `translate(0,0)`)
-        .call(d3.axisLeft(yScale))
+        .attr("transform", "translate(0,0)")
+        .call(yAxis)
         .append("text")
         .attr("fill", "#000")
         .attr("transform", "rotate(-90)")
@@ -95,6 +112,51 @@ class Scatterplot extends Component {
         .attr("class", "circles")
         .attr("r", () => 5);
 
+      svg.append("g").attr("class", "brush").call(brush);
+
+      function brushended(event) {
+        var s = event.selection;
+        console.log(s);
+        if (!s) {
+          console.log("one");
+          if (!idleTimeout) return (idleTimeout = setTimeout(idled, idleDelay));
+          xScale.domain([0, d3.max(data, (d) => d[0])]);
+          yScale.domain([0, d3.max(data, (d) => d[1])]);
+        } else {
+          xScale.domain([s[0][0], s[1][0]].map(xScale.invert, xScale));
+          yScale.domain([s[1][1], s[0][1]].map(yScale.invert, yScale));
+          svg.select(".brush").call(brush.move, null);
+        }
+        zoom();
+      }
+      function zoom() {
+        var t = svg.transition().duration(750);
+        svg.select(".axis--x").transition(t).call(xAxis);
+        svg.select(".axis--y").transition(t).call(yAxis);
+        svg
+          .selectAll("circle")
+          .transition(t)
+          .attr("cx", function (d) {
+            return xScale(d[0]);
+          })
+          .attr("cy", function (d) {
+            return yScale(d[1]);
+          });
+
+        // draw text labels
+        svg
+          .selectAll(".label-text")
+          .transition(t)
+          .delay(function (d, i) {
+            return i * 125;
+          })
+          .text((d) => d[0] + "," + d[1])
+          .attr("x", (d) => xScale(d[0]))
+          .attr("y", (d) => yScale(d[1]) - 10);
+      }
+      function idled() {
+        idleTimeout = null;
+      }
       // Animation: put them down one by one:
       function triggerTransitionDelay() {
         // update points to right position
@@ -116,6 +178,7 @@ class Scatterplot extends Component {
           .data(data)
           .enter()
           .append("text")
+          .attr("class", "label-text")
           .transition()
           .duration(500)
           .delay(function (d, i) {
