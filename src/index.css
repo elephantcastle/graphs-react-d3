@@ -28,6 +28,7 @@ code {
   margin: 20px;
 }
 
+#barchart,
 #scatterplot,
 #linechart {
   display: flex;
