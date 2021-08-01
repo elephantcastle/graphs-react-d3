@@ -28,7 +28,8 @@ code {
   margin: 20px;
 }
 
-#scatterplot {
+#scatterplot,
+#linechart {
   display: flex;
   justify-content: center;
 }

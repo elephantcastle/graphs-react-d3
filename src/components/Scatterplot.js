@@ -25,63 +25,78 @@ class Scatterplot extends Component {
     this.drawScatterplot(this.dataset);
   }
 
-  drawScatterplot(dataset) {
-    const w = 500;
-    const h = 500;
-    const padding = 60;
+  drawScatterplot(data) {
+    const margin = { top: 30, right: 60, bottom: 30, left: 60 };
+    const width = 500 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
 
     // setup the canvas
     const svg = d3
       .select("#scatterplot")
       .append("svg")
-      .attr("width", w)
-      .attr("height", h);
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // create scales
+    // create scales and append axis
     const xScale = d3
       .scaleLinear()
-      .domain([0, d3.max(dataset, (d) => d[0])])
-      .range([padding, w - padding]);
+      .domain([0, d3.max(data, (d) => d[0])])
+      .range([0, width]);
+    //append x axis
+    svg
+      .append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(xScale))
+      .append("text")
+      .attr("fill", "#000")
+      .attr("x", width)
+      .attr("dy", "-0.71em")
+      .attr("text-anchor", "end")
+      .text("x coordinate");
 
     const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(dataset, (d) => d[1])])
-      .range([h - padding, padding]);
-
-    // create axes
-    const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3.axisLeft(yScale);
+      .domain([0, d3.max(data, (d) => d[1])])
+      .range([height, 0]);
+    //append y axis
+    svg
+      .append("g")
+      .attr("class", "axis axis--y")
+      .attr("transform", `translate(0,0)`)
+      .call(d3.axisLeft(yScale))
+      .append("text")
+      .attr("fill", "#000")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("y coordinate");
 
     // draw points
     svg
+      .append("g")
       .selectAll("circle")
-      .data(dataset)
+      .data(data)
       .enter()
       .append("circle")
       .attr("cx", (d) => xScale(d[0]))
       .attr("cy", (d) => yScale(d[1]))
-      .attr("r", (d) => 5);
+      .attr("class", "circles")
+      .attr("r", () => 5);
 
     // draw text labels
     svg
+      .append("g")
       .selectAll("text")
-      .data(dataset)
+      .data(data)
       .enter()
       .append("text")
       .text((d) => d[0] + "," + d[1])
-      .attr("x", (d) => xScale(d[0] + 10))
-      .attr("y", (d) => yScale(d[1]));
-
-    // append the axes
-    svg
-      .append("g")
-      .attr("transform", "translate(0," + (h - padding) + ")")
-      .call(xAxis);
-
-    svg
-      .append("g")
-      .attr("transform", "translate(0" + padding + ",0)")
-      .call(yAxis);
+      .attr("x", (d) => xScale(d[0]))
+      .attr("y", (d) => yScale(d[1]) - 10);
   }
   render() {
     return <div id="scatterplot"></div>;
