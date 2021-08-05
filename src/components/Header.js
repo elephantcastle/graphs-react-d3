@@ -14,6 +14,9 @@ const Header = () => {
           <Link to="/barchart">barchart</Link>
         </li>
         <li>
+          <Link to="/groupedandstackedchart">groupedandstackedchart</Link>
+        </li>
+        <li>
           <Link to="/boxplot">boxplot</Link>
         </li>
         <li>

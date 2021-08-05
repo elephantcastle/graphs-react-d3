@@ -3,6 +3,7 @@ import React from "react";
 
 // components used in routes
 import Barchart from "./components/Barchart";
+import Groupedstackedchart from "./components/Groupedstackedchart";
 import Linechart from "./components/Linechart";
 import Choropleth from "./components/Choropleth";
 import Sankey from "./components/Sankey";
@@ -26,6 +27,9 @@ function App() {
           </Route>
           <Route path="/barchart">
             <Barchart />
+          </Route>
+          <Route path="/groupedandstackedchart">
+            <Groupedstackedchart />
           </Route>
           <Route path="/boxplot">
             <Boxplot />
