@@ -39,9 +39,9 @@ class Boxplot extends Component {
       let widthDiv = window.innerWidth;
       let heightDiv = window.innerHeight - headerDiv[0].clientHeight;
 
-      const margin = { top: 30, right: 90, bottom: 30, left: 60 };
-      const width = (widthDiv || 800) - margin.left - margin.right;
-      const height = (heightDiv || 800) - margin.top - margin.bottom;
+      const margin = { top: 30, right: 90, bottom: 30, left: 90 };
+      const width = (widthDiv || 600) - margin.left - margin.right;
+      const height = (heightDiv || 300) - margin.top - margin.bottom;
 
       const wiskerWidth = 20;
 
@@ -75,7 +75,7 @@ class Boxplot extends Component {
         .attr("text-anchor", "end")
         .text("Day");
       // remove last nasty vertical bar
-      d3.select(".axis.axis--x").select("path").attr("d", "M0,-390V0H1310");
+      d3.select(".axis.axis--x").select("path").attr("d", `M0,-390V0H${width}`);
 
       const yScale = d3.scaleLinear().domain([0, 100]).range([height, 0]);
 

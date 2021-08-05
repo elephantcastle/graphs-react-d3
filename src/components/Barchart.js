@@ -3,15 +3,20 @@ import React, { Component } from "react";
 
 class Barchart extends Component {
   componentDidMount() {
-    this.drawBarchart(this.dataset);
+    this.drawBarchart();
+    window.addEventListener("resize", this.drawBarchart);
   }
 
   componentDidUpdate() {
-    this.drawBarchart(this.dataset);
+    this.drawBarchart();
   }
 
-  async drawBarchart(data) {
-    let dataset = await d3.csv(
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.drawBarchart);
+  }
+
+  async drawBarchart() {
+    let data = await d3.csv(
       "https://raw.githubusercontent.com/elephantcastle/graphs-react-d3/master/src/dataset/barchart.csv",
       // format the date and values to have the right format
       function (d) {
@@ -22,7 +27,7 @@ class Barchart extends Component {
       }
     );
 
-    const redraw = () => {
+    const redraw = (dataset) => {
       d3.select("#barchart svg").remove();
 
       let headerDiv = document.getElementsByClassName("header");
@@ -30,8 +35,8 @@ class Barchart extends Component {
       let heightDiv = window.innerHeight - headerDiv[0].clientHeight;
 
       const margin = { top: 30, right: 90, bottom: 30, left: 90 };
-      const width = (widthDiv || 800) - margin.left - margin.right;
-      const height = (heightDiv || 800) - margin.top - margin.bottom;
+      const width = (widthDiv || 600) - margin.left - margin.right;
+      const height = (heightDiv || 300) - margin.top - margin.bottom;
 
       // setup the canvas
       const svg = d3
@@ -109,8 +114,7 @@ class Barchart extends Component {
           return yScale(d.Value);
         });
     };
-    redraw();
-    window.addEventListener("resize", redraw);
+    redraw(data);
   }
   render() {
     return <div id="barchart"></div>;
