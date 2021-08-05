@@ -8,6 +8,7 @@ import Choropleth from "./components/Choropleth";
 import Sankey from "./components/Sankey";
 import Hexbin from "./components/Hexbin";
 import Scatterplot from "./components/Scatterplot";
+import Boxplot from "./components/Boxplot";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -25,6 +26,9 @@ function App() {
           </Route>
           <Route path="/barchart">
             <Barchart />
+          </Route>
+          <Route path="/boxplot">
+            <Boxplot />
           </Route>
           <Route path="/choropleth">
             <Choropleth />
