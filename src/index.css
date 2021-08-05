@@ -30,7 +30,16 @@ code {
 
 #barchart,
 #scatterplot,
-#linechart {
+#linechart,
+#boxplot {
   display: flex;
   justify-content: center;
+}
+
+.controls-scatterplot {
+  display: flex;
+  justify-content: center;
+}
+.controls-scatterplot > #reset {
+  margin-left: 20px;
 }

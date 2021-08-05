@@ -33,7 +33,7 @@ class Scatterplot extends Component {
       let widthDiv = window.innerWidth;
       let heightDiv = window.innerHeight - headerDiv[0].clientHeight;
 
-      const margin = { top: 30, right: 60, bottom: 30, left: 60 };
+      const margin = { top: 30, right: 90, bottom: 30, left: 90 };
       const width = (widthDiv || 800) - margin.left - margin.right;
       const height = (heightDiv || 800) - margin.top - margin.bottom;
 
@@ -104,10 +104,10 @@ class Scatterplot extends Component {
         .append("svg:clipPath")
         .attr("id", "clip")
         .append("svg:rect")
-        .attr("width", width)
-        .attr("height", height)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
         .attr("x", 0)
-        .attr("y", 0);
+        .attr("y", -margin.top);
       // draw points in the center
       svg
         .append("g")
@@ -199,12 +199,28 @@ class Scatterplot extends Component {
           .attr("y", (d) => yScale(d[1]) - 10);
       }
       setTimeout(triggerTransitionDelay, 500);
+
+      d3.select("#reset").on("click", function () {
+        // reset brush to initial state
+        xScale.domain([0, d3.max(data, (d) => d[0])]);
+        yScale.domain([0, d3.max(data, (d) => d[1])]);
+        svg.select(".brush").call(brush.move, null);
+        zoom();
+      });
     };
     redraw();
     window.addEventListener("resize", redraw);
   }
   render() {
-    return <div id="scatterplot"></div>;
+    return (
+      <div>
+        <div className="controls-scatterplot">
+          Drag the mouse to zoom on a selection{" "}
+          <button id="reset">Reset Zoom</button>
+        </div>
+        <div id="scatterplot"></div>);
+      </div>
+    );
   }
 }
 
