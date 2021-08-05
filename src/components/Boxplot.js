@@ -65,10 +65,12 @@ class Boxplot extends Component {
         .call(xAxis)
         .append("text")
         .attr("fill", "#000")
-        .attr("x", width + 20)
+        .attr("x", width)
         .attr("dy", "-0.71em")
         .attr("text-anchor", "end")
         .text("Day");
+      // remove last nasty vertical bar
+      d3.select(".axis.axis--x").select("path").attr("d", "M0,-390V0H1310");
 
       const yScale = d3.scaleLinear().domain([0, 100]).range([height, 0]);
 
