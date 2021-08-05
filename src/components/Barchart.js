@@ -23,13 +23,13 @@ class Barchart extends Component {
     );
 
     const redraw = () => {
-      d3.select("#scatterplot svg").remove();
+      d3.select("#barchart svg").remove();
 
       let headerDiv = document.getElementsByClassName("header");
       let widthDiv = window.innerWidth;
       let heightDiv = window.innerHeight - headerDiv[0].clientHeight;
 
-      const margin = { top: 30, right: 60, bottom: 30, left: 60 };
+      const margin = { top: 30, right: 90, bottom: 30, left: 90 };
       const width = (widthDiv || 800) - margin.left - margin.right;
       const height = (heightDiv || 800) - margin.top - margin.bottom;
 

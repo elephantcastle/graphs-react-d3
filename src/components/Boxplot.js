@@ -3,15 +3,20 @@ import React, { Component } from "react";
 
 class Boxplot extends Component {
   componentDidMount() {
-    this.drawBoxplot(this.dataset);
+    this.drawBoxplot();
+    window.addEventListener("resize", this.drawBoxplot);
   }
 
   componentDidUpdate() {
-    this.drawBoxplot(this.dataset);
+    this.drawBoxplot();
   }
 
-  async drawBoxplot(data) {
-    let dataset = await d3.csv(
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.drawBoxplot);
+  }
+
+  async drawBoxplot() {
+    let data = await d3.csv(
       "https://raw.githubusercontent.com/elephantcastle/graphs-react-d3/master/src/dataset/boxplot.csv",
       // format the date and values to have the right format
       function (d) {
@@ -27,14 +32,14 @@ class Boxplot extends Component {
       }
     );
 
-    const redraw = () => {
+    const redraw = (dataset) => {
       d3.select("#boxplot svg").remove();
 
       let headerDiv = document.getElementsByClassName("header");
       let widthDiv = window.innerWidth;
       let heightDiv = window.innerHeight - headerDiv[0].clientHeight;
 
-      const margin = { top: 30, right: 60, bottom: 30, left: 60 };
+      const margin = { top: 30, right: 90, bottom: 30, left: 60 };
       const width = (widthDiv || 800) - margin.left - margin.right;
       const height = (heightDiv || 800) - margin.top - margin.bottom;
 
@@ -164,8 +169,7 @@ class Boxplot extends Component {
             .style("stroke-width", "3px");
         });
     };
-    redraw();
-    window.addEventListener("resize", redraw);
+    redraw(data);
   }
   render() {
     return <div id="boxplot"></div>;

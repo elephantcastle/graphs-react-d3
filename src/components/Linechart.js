@@ -4,15 +4,20 @@ import React, { Component } from "react";
 class Linechart extends Component {
   async componentDidMount() {
     this.drawLinechart();
+    window.addEventListener("resize", this.drawLinechart);
   }
 
   componentDidUpdate() {
     this.drawLinechart();
   }
 
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.drawLinechart);
+  }
+
   async drawLinechart() {
     try {
-      let dataset = await d3.csv(
+      let data = await d3.csv(
         "https://raw.githubusercontent.com/elephantcastle/graphs-react-d3/master/src/dataset/linechart.csv",
         // format the date and values to have the right format
         function (d) {
@@ -22,7 +27,7 @@ class Linechart extends Component {
           };
         }
       );
-      const redraw = () => {
+      const redraw = (dataset) => {
         d3.select("#linechart svg").remove();
 
         let headerDiv = document.getElementsByClassName("header");
@@ -134,8 +139,7 @@ class Linechart extends Component {
           .delay(2000);
       };
 
-      redraw();
-      window.addEventListener("resize", redraw);
+      redraw(data);
     } catch (err) {
       console.log(err);
     }
