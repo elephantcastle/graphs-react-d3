@@ -121,8 +121,8 @@ class GroupedAndStackedChart extends Component {
       d3.select(".axis.axis--x").select(".domain").remove();
       d3.select(".axis.axis--y").select(".domain").remove();
 
-      // Create Bars
-      svg
+      // // Create Bars
+      const rect = svg
         .selectAll("mybar")
         .data(dataset)
         .enter()
@@ -133,20 +133,113 @@ class GroupedAndStackedChart extends Component {
         .selectAll("rect")
         .data(function (d) {
           return ageBands.map(function (key) {
-            return { key: key, value: d[key] };
+            return { key: key, data: d };
           });
-        })
-        .join("rect")
+        }) // pass a new data structure for each state, the key is the age band and values the relative population
+        .join("rect") // join is used to update dataset instead of merge
         .attr("x", (d) => xScaleageBands(d.key))
-        .attr("y", (d) => yScale(d.value))
+        .attr("y", (d) => yScale(d.data[d.key]))
         .attr("width", xScaleageBands.bandwidth())
-        .attr("height", (d) => yScale(0) - yScale(d.value))
+        .attr("height", (d) => yScale(0) - yScale(d.data[d.key]))
         .attr("fill", (d) => color(d.key));
+
+      // Create Bars
+      // svg
+      //   .selectAll("mybar2")
+      //   .data(dataset)
+      //   .enter()
+      //   .append("g") //create a group for each state
+      //   .attr("transform", function (d) {
+      //     return "translate(" + xScaleStates(states[0]) + ",0)";
+      //   }) //translate the group based on the stateScale
+      //   .selectAll("rect")
+      //   .data(function (d) {
+      //     return ageBands.map(function (key) {
+      //       return { key: key, value: d[key], data: d };
+      //     });
+      //   }) // pass a new data structure for each state, the key is the age band and values the relative population
+      //   .join("rect") // join is used to update dataset instead of merge
+      //   .attr("x", (d) => {
+      //     return xScaleStates(d.data.State);
+      //   })
+      //   .attr("y", (d, i) => {
+      //     return yScaleStacked(
+      //       d3.range(i + 1).reduce((s, item) => d.data[ageBands[item]] + s, 0)
+      //     );
+      //   })
+      //   .attr("width", 20)
+      //   .attr("height", (d, i) => {
+      //     return yScaleStacked(0) - yScaleStacked(d.data[d.key]);
+      //   })
+      //   .attr("fill", (d) => color(d.key));
+      d3.selectAll("input").on("change", function () {
+        console.log(this.value);
+        if (this.value === "grouped") {
+          transformToGrouped();
+        } else {
+          transformToStacked();
+        }
+      });
+      function transformToStacked() {
+        yScale.domain([
+          0,
+          d3.max(dataset, (d) => d3.sum(ageBands, (key) => d[key])),
+        ]);
+        svg.selectAll(".axis.axis--y").call(d3.axisLeft(yScale));
+        d3.select(".axis.axis--y").select(".domain").remove();
+
+        rect
+          .transition()
+          .duration(500)
+          .delay((d, i) => i * 20)
+          .attr("y", (d, i) =>
+            yScale(
+              d3.range(i + 1).reduce((s, item) => d.data[ageBands[item]] + s, 0)
+            )
+          )
+          .attr("height", (d) => yScale(0) - yScale(d.data[d.key]))
+          .transition()
+          .attr("x", (d, i) => xScaleStates(states[0]))
+          .attr("width", 20);
+      }
+
+      function transformToGrouped() {
+        yScale.domain([
+          0,
+          d3.max(dataset, (d) => d3.max(ageBands, (key) => d[key])),
+        ]);
+        svg.selectAll(".axis.axis--y").call(d3.axisLeft(yScale));
+        d3.select(".axis.axis--y").select(".domain").remove();
+
+        rect
+          .transition()
+          .duration(500)
+          .delay((d, i) => i * 20)
+          .attr("x", (d) => xScaleageBands(d.key))
+          .attr("y", (d) => yScale(d.data[d.key]))
+          .attr("height", (d) => yScale(0) - yScale(d.data[d.key]))
+          .transition()
+          .attr("width", xScaleageBands.bandwidth())
+          .attr("height", (d) => yScale(0) - yScale(d.data[d.key]));
+      }
     };
     redraw(data);
   }
   render() {
-    return <div id="groupedandstackedchart"></div>;
+    return (
+      <div>
+        <div className="controls-groupedandstackedchart">
+          Select an option
+          <label>
+            <input type="radio" value="grouped" name="gender" /> grouped
+          </label>
+          <label>
+            <input type="radio" value="stacked" name="gender" /> stacked
+          </label>
+        </div>
+        <div id="groupedandstackedchart"></div>
+      </div>
+    );
   }
 }
 

@@ -43,3 +43,12 @@ code {
 .controls-scatterplot > #reset {
   margin-left: 20px;
 }
+
+.controls-groupedandstackedchart {
+  display: flex;
+  justify-content: center;
+}
+
+.controls-groupedandstackedchart > label {
+  margin-left: 20px;
+}
