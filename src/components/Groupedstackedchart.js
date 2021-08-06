@@ -143,35 +143,6 @@ class GroupedAndStackedChart extends Component {
         .attr("height", (d) => yScale(0) - yScale(d.data[d.key]))
         .attr("fill", (d) => color(d.key));
 
-      // Create Bars
-      // svg
-      //   .selectAll("mybar2")
-      //   .data(dataset)
-      //   .enter()
-      //   .append("g") //create a group for each state
-      //   .attr("transform", function (d) {
-      //     return "translate(" + xScaleStates(states[0]) + ",0)";
-      //   }) //translate the group based on the stateScale
-      //   .selectAll("rect")
-      //   .data(function (d) {
-      //     return ageBands.map(function (key) {
-      //       return { key: key, value: d[key], data: d };
-      //     });
-      //   }) // pass a new data structure for each state, the key is the age band and values the relative population
-      //   .join("rect") // join is used to update dataset instead of merge
-      //   .attr("x", (d) => {
-      //     return xScaleStates(d.data.State);
-      //   })
-      //   .attr("y", (d, i) => {
-      //     return yScaleStacked(
-      //       d3.range(i + 1).reduce((s, item) => d.data[ageBands[item]] + s, 0)
-      //     );
-      //   })
-      //   .attr("width", 20)
-      //   .attr("height", (d, i) => {
-      //     return yScaleStacked(0) - yScaleStacked(d.data[d.key]);
-      //   })
-      //   .attr("fill", (d) => color(d.key));
       d3.selectAll("input").on("change", function () {
         console.log(this.value);
         if (this.value === "grouped") {
