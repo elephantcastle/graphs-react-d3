@@ -30,10 +30,16 @@ class Scatterplot extends Component {
       d3.select("#scatterplot svg").remove();
 
       let headerDiv = document.getElementsByClassName("header");
-      let widthDiv = window.innerWidth;
-      let heightDiv = window.innerHeight - headerDiv[0].clientHeight;
+      let controlsDiv = document.getElementsByClassName("controls-scatterplot");
 
-      const margin = { top: 30, right: 90, bottom: 30, left: 90 };
+      let widthDiv = window.innerWidth;
+      let heightDiv =
+        window.innerHeight -
+        headerDiv[0].clientHeight -
+        controlsDiv[0].clientHeight -
+        30;
+
+      const margin = { top: 40, right: 90, bottom: 40, left: 90 };
       const width = (widthDiv || 800) - margin.left - margin.right;
       const height = (heightDiv || 800) - margin.top - margin.bottom;
 

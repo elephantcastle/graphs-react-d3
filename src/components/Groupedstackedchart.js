@@ -37,10 +37,18 @@ class GroupedAndStackedChart extends Component {
       d3.select("#groupedandstackedchart svg").remove();
 
       let headerDiv = document.getElementsByClassName("header");
-      let widthDiv = window.innerWidth;
-      let heightDiv = window.innerHeight - headerDiv[0].clientHeight;
+      let controlsDiv = document.getElementsByClassName(
+        "controls-groupedandstackedchart"
+      );
 
-      const margin = { top: 30, right: 90, bottom: 30, left: 90 };
+      let widthDiv = window.innerWidth;
+      let heightDiv =
+        window.innerHeight -
+        headerDiv[0].clientHeight -
+        controlsDiv[0].clientHeight -
+        10;
+
+      const margin = { top: 40, right: 90, bottom: 40, left: 90 };
       const width = (widthDiv || 600) - margin.left - margin.right;
       const height = (heightDiv || 300) - margin.top - margin.bottom;
 
