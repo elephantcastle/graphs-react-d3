@@ -59,6 +59,26 @@ class Mapchart extends Component {
       .style("fill", (d) => countryColor(geoPath.area(d)))
       .style("stroke", (d) => d3.rgb(countryColor(geoPath.area(d))).darker());
 
+    // add graticule
+    const graticule = d3.geoGraticule();
+    d3.select("svg")
+      .insert("path", "path.countries")
+      .datum(graticule)
+      .attr("class", "graticule line")
+      .attr("d", geoPath)
+      .style("fill", "transparent")
+      .style("stroke", "black")
+      .attr("stroke-width", 0.1);
+
+    d3.select("svg")
+      .insert("path", "path.countries")
+      .datum(graticule.outline)
+      .attr("class", "graticule outline")
+      .attr("d", geoPath)
+      .style("fill", "transparent")
+      .style("stroke", "black")
+      .attr("stroke-width", 0.2);
+
     // paint a rectangles on mouseover a country
     d3.selectAll("path.countries")
       .on("mouseover", centerBounds)
@@ -102,6 +122,7 @@ class Mapchart extends Component {
       let e = event;
       projection.translate([e.transform.x, e.transform.y]).scale(e.transform.k);
       d3.selectAll("path.countries").attr("d", geoPath);
+      d3.selectAll("path.graticule").attr("d", geoPath);
     }
   }
   render() {
