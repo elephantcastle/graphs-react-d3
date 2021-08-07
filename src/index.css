@@ -31,6 +31,7 @@ code {
 #barchart,
 #scatterplot,
 #linechart,
+#mapchart,
 #boxplot {
   display: flex;
   justify-content: center;
