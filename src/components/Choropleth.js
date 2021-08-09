@@ -21,26 +21,26 @@ class Mapchart extends Component {
     d3.select("#mapchart svg").remove();
 
     let headerDiv = document.getElementsByClassName("header");
-    let widthDiv = window.innerWidth;
+    let widthDiv = window.innerWidth - 200;
     let heightDiv = window.innerHeight - headerDiv[0].clientHeight;
 
-    const margin = { top: 20, right: 30, bottom: 30, left: 60 };
+    const margin = { top: 20, right: 50, bottom: 20, left: 50 };
     const width = (widthDiv || 800) - margin.left - margin.right;
     const height = (heightDiv || 800) - margin.top - margin.bottom;
 
     // setup the canvas
-    d3.select("#mapchartMollweide")
+    d3.select("#mapchart")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(0,0)");
 
     //setup the projection type, scale, positioning and using geoPath to obtain a path to be plot it on canvas
     let projection = d3geoprojection
       .geoMollweide()
       .scale((250 * height * width) / (1340 * 756))
-      .translate([width / 2, height / 2]);
+      .translate([width / 2 + margin.left, height / 2]);
     let geoPath = d3.geoPath().pointRadius(5).projection(projection);
 
     let featureSize = d3.extent(countries.features, (d) => geoPath.area(d));
@@ -115,7 +115,7 @@ class Mapchart extends Component {
     // setup zoom
     let mapZoom = d3.zoom().on("zoom", zoomed);
     let zoomSettings = d3.zoomIdentity
-      .translate(width / 2, height / 2)
+      .translate(width / 2 + margin.left, height / 2)
       .scale((250 * height * width) / (1340 * 756));
     d3.select("svg").call(mapZoom).call(mapZoom.transform, zoomSettings);
     function zoomed(event) {
@@ -128,7 +128,7 @@ class Mapchart extends Component {
   render() {
     return (
       <div>
-        <div id="mapchartMollweide"></div>
+        <div id="mapchart"></div>
       </div>
     );
   }
