@@ -66,8 +66,11 @@ class Scatterplot extends Component {
       let brush = d3
         .brush()
         .extent([
-          [0, 0],
-          [width, height],
+          [-margin.left - margin.right, -margin.top - margin.bottom],
+          [
+            width + margin.left + margin.right,
+            margin.top + margin.bottom + height,
+          ],
         ])
         .on("end", brushended);
 
@@ -113,7 +116,7 @@ class Scatterplot extends Component {
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("x", 0)
-        .attr("y", -margin.top);
+        .attr("y", -margin.top - margin.bottom);
       // draw points in the center
       svg
         .append("g")
