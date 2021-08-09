@@ -210,7 +210,8 @@ class GroupedAndStackedChart extends Component {
         <div className="controls-groupedandstackedchart">
           Select an option
           <label>
-            <input type="radio" value="grouped" name="gender" /> grouped
+            <input type="radio" value="grouped" name="gender" defaultChecked />{" "}
+            grouped
           </label>
           <label>
             <input type="radio" value="stacked" name="gender" /> stacked
