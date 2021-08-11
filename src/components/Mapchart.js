@@ -153,6 +153,12 @@ class Mapchart extends Component {
             .scale((250 * height * width) / (1340 * 756))
             .translate([width / 2 + margin.left, height / 2]);
           break;
+        case "equirectangular":
+          projection = d3
+            .geoEquirectangular()
+            .scale((250 * height * width) / (1340 * 756))
+            .translate([width / 2 + margin.left, height / 2]);
+          break;
         default:
           projection = d3
             .geoMercator()
@@ -176,6 +182,10 @@ class Mapchart extends Component {
               defaultChecked
             />
             mercator
+          </label>
+          <label>
+            <input type="radio" value="equirectangular" name="projection" />
+            equirectangular
           </label>
           <label>
             <input type="radio" value="mollweide" name="projection" /> mollweide
