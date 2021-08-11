@@ -1,10 +1,10 @@
 # cloudbuild.yaml
 steps:
   - name: node:12.14.1
-    entrypoint: npm
+    entrypoint: yarn
     args: ["install"]
   - name: node:12.14.1
-    entrypoint: npm
+    entrypoint: yarn
     args: ["run", "build"]
   - name: "gcr.io/cloud-builders/gcloud"
     args: ["app", "deploy"]
