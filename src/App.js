@@ -5,7 +5,7 @@ import React from "react";
 import Barchart from "./components/Barchart";
 import Groupedstackedchart from "./components/Groupedstackedchart";
 import Linechart from "./components/Linechart";
-import Choropleth from "./components/Choropleth";
+import Mapchart from "./components/Mapchart";
 import Sankey from "./components/Sankey";
 import Hexbin from "./components/Hexbin";
 import Scatterplot from "./components/Scatterplot";
@@ -34,8 +34,8 @@ function App() {
           <Route path="/boxplot">
             <Boxplot />
           </Route>
-          <Route path="/choropleth">
-            <Choropleth />
+          <Route path="/Mapchart">
+            <Mapchart />
           </Route>
           <Route path="/sankey">
             <Sankey />

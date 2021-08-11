@@ -45,11 +45,13 @@ code {
   margin-left: 20px;
 }
 
-.controls-groupedandstackedchart {
+.controls-groupedandstackedchart,
+.controls-mapchart {
   display: flex;
   justify-content: center;
 }
 
-.controls-groupedandstackedchart > label {
+.controls-groupedandstackedchart > label,
+.controls-mapchart > label {
   margin-left: 20px;
 }
