@@ -126,12 +126,6 @@ class Globe extends Component {
       .range([-180, 0, 180]);
     d3.select("svg").call(mapZoom).call(mapZoom.transform, zoomSettings);
     function zoomed(e) {
-      console.log(
-        projection.rotate(),
-        e.transform,
-        e,
-        rotateScale(e.transform.x) % 360
-      );
       //   if mouse is dragged rotate the globe otherwise zoom on wheel
       if (e?.sourceEvent?.type === "mousemove") {
         let currentRotate = rotateScale(e.transform.x) % 360;
