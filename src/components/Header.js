@@ -20,7 +20,10 @@ const Header = () => {
           <Link to="/boxplot">boxplot</Link>
         </li>
         <li>
-          <Link to="/Mapchart">mapchart</Link>
+          <Link to="/mapchart">mapchart</Link>
+        </li>
+        <li>
+          <Link to="/globe">Globe</Link>
         </li>
         <li>
           <Link to="/hexbin">hexbin</Link>

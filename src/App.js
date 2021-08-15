@@ -6,6 +6,7 @@ import Barchart from "./components/Barchart";
 import Groupedstackedchart from "./components/Groupedstackedchart";
 import Linechart from "./components/Linechart";
 import Mapchart from "./components/Mapchart";
+import Globe from "./components/Globe";
 import Sankey from "./components/Sankey";
 import Hexbin from "./components/Hexbin";
 import Scatterplot from "./components/Scatterplot";
@@ -34,8 +35,11 @@ function App() {
           <Route path="/boxplot">
             <Boxplot />
           </Route>
-          <Route path="/Mapchart">
+          <Route path="/mapchart">
             <Mapchart />
+          </Route>
+          <Route path="/globe">
+            <Globe />
           </Route>
           <Route path="/sankey">
             <Sankey />
