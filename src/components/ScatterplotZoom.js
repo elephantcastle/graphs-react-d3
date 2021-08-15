@@ -136,7 +136,7 @@ class ScatterplotZoom extends Component {
     return (
       <div>
         <div className="controls-mapchart">
-          Select a projection type
+          Use the buttons to modify the zoom
           <button value="in"> zoom in </button>
           <button value="out"> zoom out </button>
           <button value="reset"> reset </button>
