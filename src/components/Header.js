@@ -8,6 +8,9 @@ const Header = () => {
           <Link to="/scatterplot">scatterplot</Link>
         </li>
         <li>
+          <Link to="/scatterplotzoom">scatterplotzoom</Link>
+        </li>
+        <li>
           <Link to="/linechart">linechart</Link>
         </li>
         <li>

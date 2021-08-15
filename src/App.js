@@ -10,6 +10,7 @@ import Globe from "./components/Globe";
 import Sankey from "./components/Sankey";
 import Hexbin from "./components/Hexbin";
 import Scatterplot from "./components/Scatterplot";
+import Scatterplotzoom from "./components/Scatterplotzoom";
 import Boxplot from "./components/Boxplot";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -22,6 +23,9 @@ function App() {
         <Switch>
           <Route path="/scatterplot">
             <Scatterplot />
+          </Route>
+          <Route path="/scatterplotzoom">
+            <Scatterplotzoom />
           </Route>
           <Route path="/linechart">
             <Linechart />
