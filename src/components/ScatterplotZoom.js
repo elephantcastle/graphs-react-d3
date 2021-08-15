@@ -9,7 +9,7 @@ class ScatterplotZoom extends Component {
   async drawScatterplotZoom() {
     //Read the data
     const data = await d3.csv(
-      "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv"
+      "https://raw.githubusercontent.com/elephantcastle/graphs-react-d3/master/src/dataset/scatterplotzoom.csv"
     );
 
     const redraw = (dataset) => {
