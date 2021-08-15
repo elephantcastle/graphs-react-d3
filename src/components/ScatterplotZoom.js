@@ -20,7 +20,7 @@ class ScatterplotZoom extends Component {
 
       // append the SVG object to the body of the page
       var SVG = d3
-        .select("#dataviz_axisZoom")
+        .select("#chart")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -130,7 +130,7 @@ class ScatterplotZoom extends Component {
           <button value="out"> zoom out </button>
           <button value="reset"> reset </button>
         </div>
-        <div id="dataviz_axisZoom"></div>
+        <div id="chart"></div>
       </div>
     );
   }
