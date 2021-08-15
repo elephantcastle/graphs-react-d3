@@ -1,27 +1,12 @@
 import * as d3 from "d3";
 import React, { Component } from "react";
 
-class Scatterplot extends Component {
-  constructor(props) {
-    super(props);
-    this.dataset = [
-      [34, 78],
-      [109, 280],
-      [310, 120],
-      [79, 411],
-      [420, 220],
-      [233, 145],
-      [333, 96],
-      [222, 333],
-      [78, 320],
-      [21, 123],
-    ];
-  }
+class ScatterplotZoom extends Component {
   componentDidMount() {
-    this.drawScatterplot(this.dataset);
+    this.drawScatterplotZoom(this.dataset);
   }
 
-  async drawScatterplot() {
+  async drawScatterplotZoom() {
     //Read the data
     const data = await d3.csv(
       "https://raw.githubusercontent.com/elephantcastle/graphs-react-d3/master/src/dataset/scatterplotzoom.csv"
@@ -151,4 +136,4 @@ class Scatterplot extends Component {
   }
 }
 
-export default Scatterplot;
+export default ScatterplotZoom;
