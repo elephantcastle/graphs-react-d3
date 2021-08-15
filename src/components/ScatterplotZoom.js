@@ -3,9 +3,13 @@ import React, { Component } from "react";
 
 class ScatterplotZoom extends Component {
   componentDidMount() {
-    this.drawScatterplotZoom(this.dataset);
+    this.drawScatterplotZoom();
+    window.addEventListener("resize", this.drawScatterplotZoom);
   }
 
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.drawScatterplotZoom);
+  }
   async drawScatterplotZoom() {
     //Read the data
     const data = await d3.csv(
@@ -13,6 +17,7 @@ class ScatterplotZoom extends Component {
     );
 
     const redraw = (dataset) => {
+      d3.select("#chart svg").remove();
       // set the dimensions and margins of the graph
       let headerDiv = document.getElementsByClassName("header");
       let widthDiv = window.innerWidth;
@@ -113,11 +118,14 @@ class ScatterplotZoom extends Component {
 
       d3.selectAll("button").on("click", function (e) {
         if (e.target.value === "in") {
-          zoom.scaleBy(zoomRect, 1.2);
+          zoom.scaleBy(zoomRect.transition().duration(750), 1.2);
         } else if (e.target.value === "out") {
-          zoom.scaleBy(zoomRect, 0.8);
+          zoom.scaleBy(zoomRect.transition().duration(750), 0.8);
         } else if (e.target.value === "reset") {
-          zoomRect.call(zoom.transform, d3.zoomIdentity);
+          zoomRect
+            .transition()
+            .duration(750)
+            .call(zoom.transform, d3.zoomIdentity);
         }
       });
     };
