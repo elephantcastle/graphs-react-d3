@@ -9,14 +9,18 @@ class ScatterplotZoom extends Component {
   async drawScatterplotZoom() {
     //Read the data
     const data = await d3.csv(
-      "https://raw.githubusercontent.com/elephantcastle/graphs-react-d3/master/src/dataset/scatterplotzoom.csv"
+      "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/iris.csv"
     );
 
     const redraw = (dataset) => {
       // set the dimensions and margins of the graph
-      var margin = { top: 10, right: 30, bottom: 30, left: 60 },
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+      let headerDiv = document.getElementsByClassName("header");
+      let widthDiv = window.innerWidth;
+      let heightDiv = window.innerHeight - headerDiv[0].clientHeight;
+
+      const margin = { top: 30, right: 90, bottom: 30, left: 90 };
+      const width = (widthDiv || 600) - margin.left - margin.right;
+      const height = (heightDiv || 300) - margin.top - margin.bottom;
 
       // append the SVG object to the body of the page
       var SVG = d3
@@ -88,7 +92,6 @@ class ScatterplotZoom extends Component {
 
       // A function that updates the chart when the user zoom and thus new boundaries are available
       function updateChart(event) {
-        console.log(event);
         // recover the new scale
         var newX = event.transform.rescaleX(x);
         var newY = event.transform.rescaleY(y);
