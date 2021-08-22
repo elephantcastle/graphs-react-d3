@@ -93,7 +93,7 @@ class Calendar extends Component {
       .attr("y", d => countDay(d.date.getUTCDay()) * cellSize + 0.5)
       .attr("fill", d => color(d.count))
       .append("title")
-      .text(d => `day: ${formatDate(d.date)} - commits: ${d.count}`)
+      .text(d => d.count === 0 ? `No contributions on ${formatDate(d.date)}` : `${d.count} contributions on ${formatDate(d.date)} `)
 
     const month = year.append("g")
       .selectAll("g")
