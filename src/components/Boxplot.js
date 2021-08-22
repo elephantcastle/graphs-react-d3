@@ -7,10 +7,6 @@ class Boxplot extends Component {
     window.addEventListener("resize", this.drawBoxplot);
   }
 
-  componentDidUpdate() {
-    this.drawBoxplot();
-  }
-
   componentWillUnmount() {
     window.removeEventListener("resize", this.drawBoxplot);
   }

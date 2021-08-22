@@ -12,10 +12,6 @@ class Globe extends Component {
     window.addEventListener("resize", this.drawGlobe);
   }
 
-  componentDidUpdate() {
-    this.drawGlobe();
-  }
-
   componentWillUnmount() {
     window.removeEventListener("resize", this.drawGlobe);
   }

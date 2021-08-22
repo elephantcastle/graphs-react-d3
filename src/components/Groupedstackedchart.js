@@ -7,10 +7,6 @@ class GroupedAndStackedChart extends Component {
     window.addEventListener("resize", this.drawGroupedAndStackedChart);
   }
 
-  componentDidUpdate() {
-    this.drawGroupedAndStackedChart();
-  }
-
   componentWillUnmount() {
     window.removeEventListener("resize", this.drawGroupedAndStackedChart);
   }

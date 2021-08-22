@@ -21,10 +21,6 @@ class Scatterplot extends Component {
     this.drawScatterplot(this.dataset);
   }
 
-  componentDidUpdate() {
-    this.drawScatterplot(this.dataset);
-  }
-
   drawScatterplot(data) {
     const redraw = () => {
       d3.select("#scatterplot svg").remove();

@@ -7,10 +7,6 @@ class Barchart extends Component {
     window.addEventListener("resize", this.drawBarchart);
   }
 
-  componentDidUpdate() {
-    this.drawBarchart();
-  }
-
   componentWillUnmount() {
     window.removeEventListener("resize", this.drawBarchart);
   }

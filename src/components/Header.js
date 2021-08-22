@@ -29,6 +29,9 @@ const Header = () => {
           <Link to="/globe">Globe</Link>
         </li>
         <li>
+          <Link to="/calendar">Calendar</Link>
+        </li>
+        <li>
           <Link to="/hexbin">hexbin</Link>
         </li>
         <li>

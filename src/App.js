@@ -12,6 +12,7 @@ import Hexbin from "./components/Hexbin";
 import Scatterplot from "./components/Scatterplot";
 import ScatterplotZoom from "./components/ScatterplotZoom";
 import Boxplot from "./components/Boxplot";
+import Calendar from "./components/Calendar";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -44,6 +45,9 @@ function App() {
           </Route>
           <Route path="/globe">
             <Globe />
+          </Route>
+          <Route path="/calendar">
+            <Calendar />
           </Route>
           <Route path="/sankey">
             <Sankey />

@@ -7,10 +7,6 @@ class Linechart extends Component {
     window.addEventListener("resize", this.drawLinechart);
   }
 
-  componentDidUpdate() {
-    this.drawLinechart();
-  }
-
   componentWillUnmount() {
     window.removeEventListener("resize", this.drawLinechart);
   }

@@ -9,10 +9,6 @@ class Mapchart extends Component {
     window.addEventListener("resize", this.drawMapchart);
   }
 
-  componentDidUpdate() {
-    this.drawMapchart();
-  }
-
   componentWillUnmount() {
     window.removeEventListener("resize", this.drawMapchart);
   }
