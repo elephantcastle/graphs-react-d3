@@ -38,7 +38,7 @@ class Calendar extends Component {
     const formatDate = d3.timeFormat("%d %B %Y")
     const formatMonth = d3.utcFormat("%b")
     const timeWeek = d3.utcMonday
-    const colourPalette = (colorbrewer.default.Oranges[9] + "," + colorbrewer.default.Reds[9]).split(",")
+    const colourPalette = ("#fafafa," + colorbrewer.default.Oranges[9] + "," + colorbrewer.default.Reds[9]).split(",")
     const color = d3.scaleQuantize().domain(d3.extent(this.state.data, d => d.count)).range(colourPalette)
     const pathMonth = (t) => {
       const n = 7;
