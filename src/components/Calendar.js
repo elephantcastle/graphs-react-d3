@@ -33,14 +33,21 @@ class Calendar extends Component {
     const width = (widthDiv || 600) - margin.left - margin.right;
     const height = (heightDiv || 300) - margin.top - margin.bottom;
     const cellSize = 20
-    const weekday = 7
-    const countDay = weekday === "sunday" ? i => i : i => (i + 6) % 7
+    const countDay = i => (i + 6) % 7
     const formatDay = i => "SMTWTFS"[i]
     const formatDate = d3.timeFormat("%d %B %Y")
-    const timeWeek = weekday === "sunday" ? d3.utcSunday : d3.utcMonday
-    const colourPalette = (colorbrewer.default.Oranges[9] + "," + colorbrewer.default.Oranges[9] + "," + colorbrewer.default.Reds[9]).split(",")
+    const formatMonth = d3.utcFormat("%b")
+    const timeWeek = d3.utcMonday
+    const colourPalette = (colorbrewer.default.Oranges[9] + "," + colorbrewer.default.Reds[9]).split(",")
     const color = d3.scaleQuantize().domain(d3.extent(this.state.data, d => d.count)).range(colourPalette)
-
+    const pathMonth = (t) => {
+      const n = 7;
+      const d = Math.max(0, Math.min(n, countDay(t.getUTCDay())));
+      const w = timeWeek.count(d3.utcYear(t), t);
+      return `${d === 0 ? `M${w * cellSize},0`
+        : d === n ? `M${(w + 1) * cellSize},0`
+          : `M${(w + 1) * cellSize},0V${d * cellSize}H${w * cellSize}`}V${n * cellSize}`;
+    }
     // setup the canvas
     const svg = d3
       .select("#calendar")
@@ -68,7 +75,7 @@ class Calendar extends Component {
     year.append("g")
       .attr("text-anchor", "end")
       .selectAll("text")
-      .data(weekday === "weekday" ? d3.range(1, 6) : d3.range(7))
+      .data(d3.range(7))
       .join("text")
       .attr("x", -5)
       .attr("y", i => (countDay(i) + 0.5) * cellSize)
@@ -78,9 +85,7 @@ class Calendar extends Component {
     // attach each contribution based on length of week, colour based on commits
     year.append("g")
       .selectAll("rect")
-      .data(weekday === "weekday"
-        ? ([, values]) => values.filter(d => ![0, 6].includes(d.date.getUTCDay()))
-        : ([, values]) => values)
+      .data(([, values]) => values)
       .join("rect")
       .attr("width", cellSize - 1)
       .attr("height", cellSize - 1)
@@ -89,6 +94,24 @@ class Calendar extends Component {
       .attr("fill", d => color(d.count))
       .append("title")
       .text(d => `day: ${formatDate(d.date)} - commits: ${d.count}`)
+
+    const month = year.append("g")
+      .selectAll("g")
+      .data(([, values]) => d3.utcMonths(d3.utcMonth(values[0].date), values[values.length - 1].date))
+      .join("g");
+
+    // add month line divider
+    month.filter((d, i) => i).append("path")
+      .attr("fill", "none")
+      .attr("stroke", "black")
+      .attr("stroke-width", 1)
+      .attr("d", pathMonth);
+
+    // add month descrition on top
+    month.append("text")
+      .attr("x", d => timeWeek.count(d3.utcYear(d), timeWeek.ceil(d)) * cellSize + 2)
+      .attr("y", -5)
+      .text(formatMonth);
 
   }
   render() {
