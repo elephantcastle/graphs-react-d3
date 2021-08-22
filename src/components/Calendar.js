@@ -19,11 +19,6 @@ class Calendar extends Component {
       return newContribution
     })
     this.setState({ data: data }, () => { this.drawBoxplot() });
-    window.addEventListener("resize", this.drawBoxplot);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.drawBoxplot);
   }
 
   drawBoxplot() {
