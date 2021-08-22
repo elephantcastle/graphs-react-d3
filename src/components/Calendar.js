@@ -10,7 +10,7 @@ class Calendar extends Component {
   }
 
   async componentDidMount() {
-    let response = await axios("http://localhost:8080/commits/elephantcastle",);
+    let response = await axios("https://github-contribution-api.herokuapp.com/commits/elephantcastle",);
     const data = response.data.contributions.map(contribution => {
       const newContribution = {}
       newContribution["date"] = new Date(contribution.date)
